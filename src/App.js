@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import HeaderButton from './components/HeaderButton';
+import FormFilter from './components/FormFilter';
+import NewsFeed from './components/NewsFeed';
+import FilteredNews from './components/FilteredNews';
+class App extends Component {
+  state={
+    news:[]
+  }
+  onstateHandler =(newnews)=>{
+    this.setState({news:newnews});
+  }
+  chooserightcomponent = ()=>{
+    //checking whether to display the latest news or filtered news
+    if((this.state.news).length==0)
+    {
+       return (
+       <div className="feed">
+        <NewsFeed/>
+        </div>)
+    }
+    else {
+      return (
+        <div className="feed">
+      <FilteredNews news={this.state.news} onclickHandler={this.onstateHandler}/>
+      </div>)
+    }
+  }
+  render()
+  {
+    return(
+      <div>
+      <HeaderButton/>
+      <div className="container">
+      <FormFilter onclickHandler={this.onstateHandler}/>
+      {this.chooserightcomponent()}
+      </div>
+     </div>
+    )
+  }
 }
 
 export default App;
